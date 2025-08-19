@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net472;netstandard2.0</TargetFrameworks>
+    <AssemblyName>ILRepack.Fody</AssemblyName>
+    <RootNamespace>ILRepack.Fody</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup Label="build metadata">
+    <PackageId>KageKirin.ILRepack.Fody</PackageId>
+    <Title>ILRepack.Fody</Title>
+    <Description>Fody Weaver to repack assemblies using ILRepack</Description>
+    <PackageTags>ilrepack;fody</PackageTags>
+    <PackageIcon>Icon.png</PackageIcon>
+    <PackageIconUrl>https://raw.github.com/KageKirin/ILRepack.Fody/main/Icon.png</PackageIconUrl>
+  </PropertyGroup>
+
+</Project>

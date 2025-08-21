@@ -4,6 +4,7 @@
     <PackageVersion Include="Fody" Version="6.9.2" />
     <PackageVersion Include="FodyHelpers" Version="6.9.2" />
     <PackageVersion Include="KageKirin.ILRepack.Tool.MSBuild.Task" Version="0.4.0" />
+    <PackageVersion Include="Microsoft.NETFramework.ReferenceAssemblies.net48" Version="1.0.3" />
   </ItemGroup>
 
   <ItemGroup Label="unit test dependencies">

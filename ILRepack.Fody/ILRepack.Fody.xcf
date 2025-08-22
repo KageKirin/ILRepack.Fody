@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:all>
+    <xs:element maxOccurs="1" minOccurs="0" name="ExcludeAssemblies" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          A list of assembly names to exclude from the default action of "embed all Copy Local references", delimited with line breaks
+        </xs:documentation>
+      </xs:annotation>
+    </xs:element>
+
+    <xs:element maxOccurs="1" minOccurs="0" name="IncludeAssemblies" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          A list of assembly names to include from the default action of "embed all Copy Local references", delimited with line breaks.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:element>
+
+    <xs:element maxOccurs="1" minOccurs="0" name="ExcludeRuntimeAssemblies" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          A list of runtime assembly names to exclude from the default action of "embed all Copy Local references", delimited with line breaks
+        </xs:documentation>
+      </xs:annotation>
+    </xs:element>
+
+    <xs:element maxOccurs="1" minOccurs="0" name="IncludeRuntimeAssemblies" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          A list of runtime assembly names to include from the default action of "embed all Copy Local references", delimited with line breaks.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:element>
+
+    <xs:element maxOccurs="1" minOccurs="0" name="AllowedDuplicateTypes" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          Keep duplicates of the specified type, may be specified more than once, delimited with line breaks.
+          Corresponds to `/allowdup:Type`   command line argument
+        </xs:documentation>
+      </xs:annotation>
+    </xs:element>
+
+    <xs:element maxOccurs="1" minOccurs="0" name="ImportAttributeAssemblies" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          Take assembly attributes from the given assembly files, delimited with line breaks.
+          Corresponds to `/attr:$assembly_path` command line argument
+        </xs:documentation>
+      </xs:annotation>
+    </xs:element>
+
+    <xs:element maxOccurs="1" minOccurs="0" name="InternalizeAssemblies" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          Internalize specified assemblies, delimited with line breaks.
+          Corresponds to: `/internalizeassembly:$assembly_path`
+        </xs:documentation>
+      </xs:annotation>
+    </xs:element>
+
+    <xs:element
+      maxOccurs="1"
+      minOccurs="0"
+      name="ExcludeInternalizeAssemblies"
+      type="xs:string"
+    >
+      <xs:annotation>
+        <xs:documentation>
+          Each item is either regex or a full type name not to internalize, or an assembly name not to internalize (.dll extension optional),
+          delimited with line breaks
+          Internally, each item is written line-by-line into a `ILRepack.not` file that gets passed as.
+          Corresponds to: `/internalize:$exclude_file`
+        </xs:documentation>
+      </xs:annotation>
+    </xs:element>
+
+    <xs:element maxOccurs="1" minOccurs="0" name="RepackDropAttributes" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          Allows dropping members denoted by this attribute name when merging, delimited with line breaks.
+          Corresponds to `/repackdrop:$repack_drop_attribute` command line argument
+        </xs:documentation>
+      </xs:annotation>
+    </xs:element>
+
+  </xs:all>
+
+  <xs:attribute name="AllowAllDuplicateTypes" type="xs:boolean">
+    <xs:annotation>
+      <xs:documentation>
+        If `DuplicateTypes` is not specified, allow all duplicate types.
+        See `@AllowDuplicateTypes` below for more information.
+        Corresponds to `/allowdup` command line argument
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="AllowDuplicateResources" type="xs:boolean">
+    <xs:annotation>
+      <xs:documentation>
+        Allows to duplicate resources in output assembly (by default they're ignored).
+        Corresponds to `/allowduplicateresources` command line argument
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="AllowMultipleAssemblyLevelAttributes" type="xs:boolean">
+    <xs:annotation>
+      <xs:documentation>
+        When specified, allows multiple attributes (if type allows).
+        Corresponds to `/allowMultiple` command line argument
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="AllowWildCards" type="xs:boolean">
+    <xs:annotation>
+      <xs:documentation>
+        Allows (and resolves) file wildcards (e.g. *.dll) in input assemblies.
+        Corresponds to `/wildcards` command line argument
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="AllowZeroPeKind" type="xs:boolean">
+    <xs:annotation>
+      <xs:documentation>
+        Allows assemblies with Zero PeKind (but obviously only IL will get merged).
+        Corresponds to `/zeropekind` command line argument
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="Closed" type="xs:boolean">
+    <xs:annotation>
+      <xs:documentation>
+        NOT IMPLEMENTED.
+        Corresponds to `/closed` command line argument
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="CopyAttributes" type="xs:boolean">
+    <xs:annotation>
+      <xs:documentation>
+        Copy assembly attributes (by default only the primary assembly attributes are copied).
+        Corresponds to `/copyattrs` command line argument
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="DebugInfo" type="xs:boolean">
+    <xs:annotation>
+      <xs:documentation>
+        Enables symbol file generation. explcitly set to `false` to disable default behaviour.
+        Corresponds to `/ndebug` command line argument (when omitted)
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="DelaySign" type="xs:boolean">
+    <xs:annotation>
+      <xs:documentation>
+        Set the key, but don't sign the assembly.
+        Corresponds to `/delaysign` command line argument
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="ExcludeInternalizeSerializable" type="xs:boolean">
+    <xs:annotation>
+      <xs:documentation>
+        Do not internalize types marked as Serializable.
+        Corresponds to `/excludeinternalizeserializable` command line argument
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="Internalize" type="xs:boolean">
+    <xs:annotation>
+      <xs:documentation>
+        Make all types except in the first assembly 'internal'.
+        Types in the transitive closure of public API remain public.
+        Corresponds to `/internalize` command line argument
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="KeepOtherVersionReferences" type="xs:boolean">
+    <xs:annotation>
+      <xs:documentation>
+        Take reference assembly version into account when removing references.
+        Corresponds to `/keepotherversionreferences` command line argument
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="LineIndexation" type="xs:boolean">
+    <xs:annotation>
+      <xs:documentation>
+        Stores file:line debug information as type/method attributes (requires PDB).
+        Corresponds to `/index` command line argument
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="LogVerbose" type="xs:boolean">
+    <xs:annotation>
+      <xs:documentation>
+        More detailed logging.
+        Corresponds to `/verbose` command line argument
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="MergeIlLinkerFiles" type="xs:boolean">
+    <xs:annotation>
+      <xs:documentation>
+        Merge IL Linker files.
+        Corresponds to `/illink` command line argument
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="NoRepackRes" type="xs:boolean">
+    <xs:annotation>
+      <xs:documentation>
+        Do not add the resource 'ILRepack.List' with all merged assembly names.
+        Corresponds to `/noRepackRes` command line argument
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="Parallel" type="xs:boolean">
+    <xs:annotation>
+      <xs:documentation>
+        Use as many CPUs as possible to merge the assemblies.
+        Corresponds to `/parallel` command line argument
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="PauseBeforeExit" type="xs:boolean">
+    <xs:annotation>
+      <xs:documentation>
+        Pause execution once completed, good for debugging, don't use for CI/CD.
+        Corresponds to `/pause` command line argument
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="PreserveTimestamp" type="xs:boolean">
+    <xs:annotation>
+      <xs:documentation>
+        Preserve original file PE timestamp.
+        Corresponds to `/preservetimestamp` command line argument
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="PublicKeyTokens" type="xs:boolean">
+    <xs:annotation>
+      <xs:documentation>Undocumented.</xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="RenameInternalized" type="xs:boolean">
+    <xs:annotation>
+      <xs:documentation>
+        Rename each internalized type to a new unique name.
+        Corresponds to `/renameinternalized` command line argument
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="SkipConfigMerge" type="xs:boolean">
+    <xs:annotation>
+      <xs:documentation>
+        Skips merging config files.
+        Corresponds to `/skipconfig` command line argument
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="StrongNameLost" type="xs:boolean">
+    <xs:annotation>
+      <xs:documentation>Undocumented.</xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="UnionMerge" type="xs:boolean">
+    <xs:annotation>
+      <xs:documentation>
+        Merges types with identical names into one.
+        Corresponds to `/union` command line argument
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="XmlDocumentation" type="xs:boolean">
+    <xs:annotation>
+      <xs:documentation>
+        Merges XML documentation as well.
+        Corresponds to `/xmldocs` command line argument
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="FileAlignment" type="xs:integer">
+    <xs:annotation>
+      <xs:documentation>
+        NOT IMPLEMENTED.
+        Corresponds to `/align` command line argument
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="TargetKind" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>
+        Target assembly kind [library|exe|winexe], default is same as primary assembly.
+        Corresponds to `/target: command line argument
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="TargetPlatformDirectory" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>
+        Specify target platform path.
+        Corresponds to `/targetplatform: command line argument (first part of P)
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="TargetPlatformVersion" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>
+        Specify target platform version (v1, v1.1, v2, v4 supported).
+        Corresponds to `/targetplatform:P` command line argument (second part of P)
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="Version" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>
+        Target assembly version.
+        Corresponds to `/ver:X.Y.Z` command line argument
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="KeyContainer" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>
+        Key container.
+        Corresponds to `/keycontainer:$keycontainer_path` command line argument
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="KeyFile" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>
+        Keyfile to sign the output assembly.
+        Corresponds to `/keyfile:$keyfile_path` command line argument
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:documentation>
+    Enable logging to the given file (default is disabled).
+    Corresponds to `/log:$logfile` command line argument
+  </xs:documentation>
+  <xs:attribute name="LogFile" type="xs:string">
+    <xs:annotation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="Timeout" type="xs:integer">
+    <xs:annotation>
+      <xs:documentation>
+        Timeout to end task in seconds.
+        This is a special value that allows to terminate the `ILRepack` task after the specified time to avoid endless loops eating up precious CI time.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+</xs:complexType>

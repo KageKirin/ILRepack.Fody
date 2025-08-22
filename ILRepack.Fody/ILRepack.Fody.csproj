@@ -6,15 +6,58 @@
     <RootNamespace>ILRepack.Fody</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <DisableFody>true</DisableFody>
   </PropertyGroup>
 
   <PropertyGroup Label="build metadata">
     <PackageId>KageKirin.ILRepack.Fody</PackageId>
     <Title>ILRepack.Fody</Title>
-    <Description>Fody Weaver to repack assemblies using ILRepack</Description>
-    <PackageTags>ilrepack;fody</PackageTags>
+    <Description>Fody add-in to repack assemblies using ILRepack</Description>
+    <PackageTags>ILMerge;ILWeave;ILRepack;Fody</PackageTags>
     <PackageIcon>Icon.png</PackageIcon>
     <PackageIconUrl>https://raw.github.com/KageKirin/ILRepack.Fody/main/Icon.png</PackageIconUrl>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="ILRepack.Fody.xcf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ILRepack.Fody.props" Pack="true" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="ILRepack.Fody.targets" Pack="true" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="ILRepack.Fody.xcf" Pack="true" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup Label="functionality dependencies">
+    <PackageReference Include="Fody" />
+    <PackageReference Include="FodyHelpers" />
+    <PackageReference Include="KageKirin.ILRepack.Tool.MSBuild.Task" PrivateAssets="all" GeneratePathProperty="true" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net48" PrivateAssets="all" GeneratePathProperty="true" />
+  </ItemGroup>
+
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <PropertyGroup>
+      <_CopyCommand>cp -f &quot;$(TargetPath)&quot; &quot;$(SolutionDir)FodyWeavers/&quot;</_CopyCommand>
+      <_CopyCommand Condition="'$([System.OperatingSystem]::IsWindows())'">xcopy /Y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)FodyWeavers\&quot;</_CopyCommand>
+    </PropertyGroup>
+    <Exec Command="$(_CopyCommand)" />
+  </Target>
+
+  <Target Name="PostBuildInclude" AfterTargets="PostBuildEvent">
+    <PropertyGroup>
+      <_CopyCommand>cp -f &quot;$(TargetPath)&quot; &quot;$(SolutionDir)Tests/Repack.Include.Test/FodyWeavers/&quot;</_CopyCommand>
+      <_CopyCommand Condition="'$([System.OperatingSystem]::IsWindows())'">xcopy /Y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)Tests\Repack.Include.Test\FodyWeavers\&quot;</_CopyCommand>
+    </PropertyGroup>
+    <Exec Command="$(_CopyCommand)" />
+  </Target>
+
+  <Target Name="PostBuildExclude" AfterTargets="PostBuildEvent">
+    <PropertyGroup>
+      <_CopyCommand>cp -f &quot;$(TargetPath)&quot; &quot;$(SolutionDir)Tests/Repack.Exclude.Test/FodyWeavers/&quot;</_CopyCommand>
+      <_CopyCommand Condition="'$([System.OperatingSystem]::IsWindows())'">xcopy /Y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)Tests\Repack.Exclude.Test\FodyWeavers\&quot;</_CopyCommand>
+    </PropertyGroup>
+    <Exec Command="$(_CopyCommand)" />
+  </Target>
 
 </Project>

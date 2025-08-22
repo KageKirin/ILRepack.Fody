@@ -1,0 +1,16 @@
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup Condition="$(ILRepackRemoveCopyLocalFilesToPublish) == ''">
+    <ILRepackRemoveCopyLocalFilesToPublish>true</ILRepackRemoveCopyLocalFilesToPublish>
+  </PropertyGroup>
+
+  <Target
+    Name="ILRepackRemoveAlreadyEmbeddedFilesFromPublish"
+    AfterTargets="ComputeResolvedFilesToPublishList"
+    Condition="$(ILRepackRemoveCopyLocalFilesToPublish) == 'true'">
+    <ItemGroup>
+      <ResolvedFileToPublish Remove="@(FodyRemovedReferenceCopyLocalPaths)" />
+    </ItemGroup>
+  </Target>
+
+</Project>

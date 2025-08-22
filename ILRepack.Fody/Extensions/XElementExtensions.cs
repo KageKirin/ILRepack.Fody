@@ -55,4 +55,29 @@ internal static class XElementExtensions
 
         return null;
     }
+
+    public static string ReadStringAttribute(this XElement config, string nodeName, string @default)
+    {
+        return config.ReadStringAttribute(nodeName) ?? @default;
+    }
+
+    public static string? ReadStringAttribute(this XElement config, string nodeName)
+    {
+        var attribute = config.Attribute(nodeName);
+        if (attribute is not null)
+        {
+            try
+            {
+                return attribute.Value;
+            }
+            catch
+            {
+                throw new WeavingException(
+                    $"Could not parse '{nodeName}' from '{attribute.Value}'."
+                );
+            }
+        }
+
+        return null;
+    }
 }

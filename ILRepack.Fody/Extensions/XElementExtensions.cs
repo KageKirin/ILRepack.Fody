@@ -80,4 +80,35 @@ internal static class XElementExtensions
 
         return null;
     }
+
+    public static List<string> ReadList(this XElement config, string nodeName)
+    {
+        var list = new List<string>();
+
+        var attribute = config.Attribute(nodeName);
+        if (attribute is not null)
+        {
+            foreach (
+                var item in attribute.Value.Split('|').Where(s => !string.IsNullOrWhiteSpace(s))
+            )
+            {
+                list.Add(item.Trim());
+            }
+        }
+
+        var element = config.Element(nodeName);
+        if (element is not null)
+        {
+            foreach (
+                var item in element
+                    .Value.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries)
+                    .Where(s => !string.IsNullOrWhiteSpace(s))
+            )
+            {
+                list.Add(item.Trim());
+            }
+        }
+
+        return list;
+    }
 }

@@ -9,4 +9,12 @@ internal static class AssemblyExtensions
         var version = GetAssemblyAttribute<AssemblyInformationalVersionAttribute>(assembly);
         return version is null ? null : version.InformationalVersion;
     }
+
+    private static TAttibute? GetAssemblyAttribute<TAttibute>(Assembly assembly)
+        where TAttibute : Attribute
+    {
+        var attibutes =
+            assembly.GetCustomAttributes(typeof(TAttibute))?.ToArray() ?? Array.Empty<Attribute>();
+        return attibutes.Length > 0 ? attibutes[0] as TAttibute : null;
+    }
 }
